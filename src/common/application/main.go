@@ -14,17 +14,16 @@ type ApplicationOpt struct {
 }
 
 type Application struct {
-	Name         string
-	Context      context.Context
-	Enable       bool
-	Environtment string
-	Opt          *ApplicationOpt
+	Name    string
+	Context context.Context
+	Enable  bool
+	Opt     *ApplicationOpt
 }
 
 func (a Application) GetAppsConfig(v interface{}) {
 	configRuntime := viper.New()
 	configRuntime.AddConfigPath(a.Opt.ConfigPath)
-	configRuntime.SetConfigName(fmt.Sprintf("config-%s-%s.yml", a.Name, a.Environtment))
+	configRuntime.SetConfigName(fmt.Sprintf("config-%s-%s.yml", a.Name, a.Opt.Environtment))
 	err := configRuntime.UnmarshalKey(a.Opt.ConfigRoot, &v)
 	if err != nil {
 		panic(fmt.Sprintf("APPLICATION: unable to decode into struct, %v", err))
